@@ -28,7 +28,6 @@ import unicodedata
 #==> Paths <==
 #=============
 prccd_folder = "../data" #no backslashes in front of special characters like spaces
-#prccd_folder = "/Users/Imran/Dropbox/AIDR-DA-ALT-SC/sigir2016/data/out-domain/gold_silver/"
 prccd_folder = os.path.expanduser(prccd_folder)
 
 #=================
