@@ -24,9 +24,6 @@ entity     = r"&(?:amp|lt|gt|quot);"
 #  URLs
 
 
-# BTO 2012-06: everyone thinks the daringfireball regex should be better, but they're wrong.
-# If you actually empirically test it the results are bad.
-# Please see https://github.com/brendano/ark-tweet-nlp/pull/9
 
 urlStart1  = r"(?:https?://|\bwww\.)"
 commonTLDs = r"(?:com|org|edu|gov|net|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|pro|tel|travel|xxx)"
@@ -63,8 +60,6 @@ thingsThatSplitWords = r"[^\s\.,?\"]"
 embeddedApostrophe = thingsThatSplitWords+r"+['’′]" + thingsThatSplitWords + "*"
 
 #  Emoticons
-# myleott: in Python the (?iu) flags affect the whole expression
-#normalEyes = "(?iu)[:=]" # 8 and x are eyes but cause problems
 normalEyes = "[:=]" # 8 and x are eyes but cause problems
 wink = "[;]"
 noseArea = "(?:|-|[^a-zA-Z0-9 ])" # doesn't get :'-(
@@ -73,20 +68,13 @@ sadMouths = r"[\(\[\{]+"
 tongue = "[pPd3]+"
 otherMouths = r"(?:[oO]+|[/\\]+|[vV]+|[Ss]+|[|]+)" # remove forward slash if http://'s aren't cleaned
 
-# mouth repetition examples:
-# @aliciakeys Put it in a love song :-))
-# @hellocalyclops =))=))=)) Oh well
-
-# myleott: try to be as case insensitive as possible, but still not perfect, e.g., o.O fails
-#bfLeft = u"(♥|0|o|°|v|\\$|t|x|;|\u0ca0|@|ʘ|•|・|◕|\\^|¬|\\*)".encode('utf-8')
 bfLeft = u"(♥|0|[oO]|°|[vV]|\\$|[tT]|[xX]|;|\u0ca0|@|ʘ|•|・|◕|\\^|¬|\\*)".encode('utf-8')
 bfCenter = r"(?:[\.]|[_-]+)"
 bfRight = r"\2"
 s3 = r"(?:--['\"])"
 s4 = r"(?:<|&lt;|>|&gt;)[\._-]+(?:<|&lt;|>|&gt;)"
 s5 = "(?:[.][_]+[.])"
-# myleott: in Python the (?i) flag affects the whole expression
-#basicface = "(?:(?i)" +bfLeft+bfCenter+bfRight+ ")|" +s3+ "|" +s4+ "|" + s5
+
 basicface = "(?:" +bfLeft+bfCenter+bfRight+ ")|" +s3+ "|" +s4+ "|" + s5
 
 eeLeft = r"[＼\\ƪԄ\(（<>;ヽ\-=~\*]+"
@@ -105,13 +93,8 @@ emoticon = regex_or(
         # because eyes on the right side is more ambiguous with the standard usage of : ;
         regex_or("(?<=(?: ))", "(?<=(?:^))") + regex_or(sadMouths,happyMouths,otherMouths) + noseArea + regex_or(normalEyes, wink) + "(?:<|&lt;)?",
 
-        #inspired by http://en.wikipedia.org/wiki/User:Scapler/emoticons#East_Asian_style
+        
         eastEmote.replace("2", "1", 1), basicface,
-        # iOS 'emoji' characters (some smileys, some symbols) [\ue001-\uebbb]  
-        # TODO should try a big precompiled lexicon from Wikipedia, Dan Ramage told me (BTO) he does this
-
-        # myleott: o.O and O.o are two of the biggest sources of differences
-        #          between this and the Java version. One little hack won't hurt...
         oOEmote
 )
 
@@ -119,7 +102,7 @@ Hearts = "(?:<+/?3+)+" #the other hearts are in decorations
 
 Arrows = regex_or(r"(?:<*[-―—=]*>+|<+[-―—=]*>*)", u"[\u2190-\u21ff]+".encode('utf-8'))
 
-# BTO 2011-06: restored Hashtag, AtMention protection (dropped in original scala port) because it fixes
+# restored Hashtag, AtMention protection (dropped in original scala port) because it fixes
 # "hello (#hashtag)" ==> "hello (#hashtag )"  WRONG
 # "hello (#hashtag)" ==> "hello ( #hashtag )"  RIGHT
 # "hello (@person)" ==> "hello (@person )"  WRONG
@@ -135,7 +118,6 @@ AtMention = "[@＠][a-zA-Z0-9_]+"
 
 # I was worried this would conflict with at-mentions
 # but seems ok in sample of 5800: 7 changes all email fixes
-# http://www.regular-expressions.info/email.html
 Bound = r"(?:\W|^|$)"
 Email = regex_or("(?<=(?:\W))", "(?<=(?:^))") + r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}(?=" +Bound+")"
 
