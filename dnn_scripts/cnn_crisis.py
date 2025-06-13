@@ -1,7 +1,7 @@
 '''Train CNN on the AIDR tweet classification task.
 
 GPU command:
-    THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python lstm_rnns_aidr.py
+    THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python cnn_crisis.py
 
 Output after 4 epochs on CPU: ~0.8146
 Time per epoch on CPU (Core i7): ~150s.
