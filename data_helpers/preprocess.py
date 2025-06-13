@@ -108,10 +108,7 @@ def main(csvfile):
 
 	prccd_item_list=process(columns['item'])
 	name = os.path.splitext(csvfile)[0]
-#	if not os.path.exists(prccd_folder): os.mkdir(prccd_folder, 0755)
-#        with open(prccd_folder+"/%s_AIDR_prccd.csv" % name, 'wb') as f:
 	with open("%s_prccd.csv" % name, 'wb') as f:
-	#with codecs.open("%s_AIDR_prccd.csv" % name, 'wb', "utf-8") as f:
 		writer = csv.writer(f)
 		writer.writerow(["item_id","item","label"])
 		rows = zip(columns['item_id'],prccd_item_list,columns['label'])
