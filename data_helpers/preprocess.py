@@ -7,7 +7,6 @@
 5. Remove special characters, keep ; . ! ? 
 6. normalize elongation 
 7. tokenization using tweetNLP
-output is ~/Dropbox (QCRI)/AIDR-DA-ALT-SC/data/labeled datasets/prccd_data/{filename}_AIDR_prccd.csv
 '''
 #################################################################
 
