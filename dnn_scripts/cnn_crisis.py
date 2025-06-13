@@ -105,10 +105,6 @@ if __name__ == '__main__':
 	parser.add_option("-D", "--data-spec",         dest="data_spec", help="specification for training data (in, out, in_out) [default: %default]")
 	parser.add_option("-m", "--model-dir",         dest="model_dir", help="directory to save the best models [default: %default]")
 
-#	parser.add_option("-r", "--train-file",        dest="featFile_train")
-#	parser.add_option("-s", "--test-file",         dest="featFile_test")
-#	parser.add_option("-v", "--validation-file",   dest="featFile_dev")
-
 	# network related
 	parser.add_option("-t", "--max-tweet-length",  dest="maxlen",       type="int", help="maximul tweet length (for fixed size input) [default: %default]") # input size
 
@@ -137,10 +133,6 @@ if __name__ == '__main__':
     	,data_spec       = "in"
 	    ,log_file       = "log"
     	,model_dir      = "./saved_models/"
-
-#    	,featFile_train = "../data/good_vs_bad/CQA-QL-train.xml.multi.csv.feat"
-#    	,featFile_test  = "../data/good_vs_bad/CQA-QL-test.xml.multi.csv.feat"
-#    	,featFile_dev   = "../data/good_vs_bad/CQA-QL-devel.xml.multi.csv.feat"
 
 	   	,learn_alg      = "adadelta" # sgd, adagrad, rmsprop, adadelta, adam (default)
 	   	,loss           = "binary_crossentropy" # hinge, squared_hinge, binary_crossentropy (default)
@@ -230,23 +222,12 @@ if __name__ == '__main__':
 #		print('Test accuracy:', acc)
 
 		y_prob = model.predict_proba(X_test)
-		##added by kamla
-		#print("Predictions")
-		#for e in y_prob: print(e)
-		###
 		roc = metrics.roc_auc_score(y_test, y_prob)
 		print("ROC Prediction (binary classification):", roc)
 
 
 	elif nb_classes > 2: # multi-class
 		print ('Training and validating ....')
-                #check if there is pre-trained model
-                #if os.path.exists(model_name) == False:
-                #else:
-                    #print("Loading pre-trained model...")
-                    #model = model_from_json(open(model_name + ".json").read())
-                    #model.load_weights(model_name)
-                    #model.compile(optimizer=optimizer, loss=loss, class_mode=class_mode) 
 		model.fit(X_train, y_train_mod, batch_size=options.minibatch_size, nb_epoch=options.epochs,
 				validation_data=(X_dev, y_dev_mod), show_accuracy=True, verbose=2, callbacks=[earlystopper, checkpointer])
 
