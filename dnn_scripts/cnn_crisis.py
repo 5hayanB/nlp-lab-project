@@ -1,4 +1,4 @@
-'''Train LSTM RNNs on the AIDR tweet classification task.
+'''Train CNN on the AIDR tweet classification task.
 
 GPU command:
     THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python lstm_rnns_aidr.py
