@@ -23,7 +23,6 @@
 
 	Folder embeddings/ includes word vector file, we provide our pre-trained crisis word vectors, we also can use Google word embedding here
 
-	Folder dnn_scrips/ contains all neural nets models: CNN, RNN_LSTM, MLP…
 
 	- bash run_cnn.sh to train a model with different parameters.
 
